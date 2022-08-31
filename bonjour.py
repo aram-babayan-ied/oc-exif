@@ -13,6 +13,17 @@ lng = ''
 lat_ref = ''
 lng_ref = ''
 
+# conversion des coordonnées GPS DDM (degré, décimal, minutes) vers DD (decimal degrés)
+# inspirés de: https://stackoverflow.com/questions/33997361/how-to-convert-degree-minute-second-to-degree-decimal
+def convert_gps(gps: Tuple, direction):
+	degrees = gps[0]
+	minutes = gps[1]
+	seconds = gps[2]
+    dd = float(degrees) + float(minutes)/60 + float(seconds)/(60*60);
+    if direction == 'E' or direction == 'S':
+        dd *= -1
+    return dd;
+
 with open('test.jpg', 'rb') as image_file:
 	exif = Image(image_file)
 
@@ -69,7 +80,17 @@ with open('test.jpg', 'rb') as image_file:
 		with open('test-new.jpg', 'wb') as write_image:
 			write_image.write(exif.get_file())
 
-# map
+	#  
+	if "gps_latitude_ref" in exif.list_all() and "gps_longitude_ref" in exif.list_all():
+		st.header('Coordonnées GPS de l\'image')
+		lat = convert_gps(exif.gps_latitude, exif.gps_latitude_ref)
+		lng = convert_gps(exif.gps_longitude, exif.gps_longitude_ref)
+		m = folium.Map([lat, lng])
+		folium.Marker([lat, lng], tooltip='Coordonnées GPS de l\'image').add_to(m)
+		st_folium(m, width=750, height=400)
+
+
+st.header('Mes lieux visités')
 m = folium.Map(width=750)
 folium.Marker([48.8589466, 2.2769956], tooltip='Paris').add_to(m)
 folium.Marker([41.9102415, 12.3959153], tooltip='Rome, Italie').add_to(m)
