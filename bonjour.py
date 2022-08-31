@@ -80,7 +80,7 @@ with open('test.jpg', 'rb') as image_file:
 		with open('test-new.jpg', 'wb') as write_image:
 			write_image.write(exif.get_file())
 
-	#  
+	#  coordonnées GPS de l'image
 	if "gps_latitude_ref" in exif.list_all() and "gps_longitude_ref" in exif.list_all():
 		st.header('Coordonnées GPS de l\'image')
 		lat = convert_gps(exif.gps_latitude, exif.gps_latitude_ref)
