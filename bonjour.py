@@ -72,7 +72,6 @@ with open('test.jpg', 'rb') as image_file:
 # map
 m = folium.Map(width=750)
 folium.Marker([48.8589466, 2.2769956], tooltip='Paris').add_to(m)
-folium.Marker([48.8589466, 2.2769956], tooltip='Pologne').add_to(m)
 folium.Marker([41.9102415, 12.3959153], tooltip='Rome, Italie').add_to(m)
 folium.Marker([37.0791818, 15.2533868], tooltip='Syracuse, Italie').add_to(m)
 folium.Marker([37.1487779, 12.6679949], tooltip='Sicile, Italie').add_to(m)
